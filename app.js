@@ -10,13 +10,24 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static('public'));
 
-const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'n0m3l0',
-    database: 'BD_A'
+const { Client } = require('pg');
+
+const client = new Client({
+  user: 'fazt', // Usuario de la base de datos
+  host: 'dpg-cvogg7hr0fns739mquug-a.oregon-postgres.render.com', // Host del servicio de PostgreSQL en Render
+  database: 'db_a_hcp2', // Nombre de la base de datos
+  password: 'rngokwqa39ipw05UtipTDzS8acY3WU4C', // Contraseña
+  port: 5432, // Puerto por defecto de PostgreSQL
 });
-con.connect();
+
+client.connect()
+  .then(() => {
+    console.log('Conectado a la base de datos PostgreSQL');
+  })
+  .catch((err) => {
+    console.error('Error de conexión', err.stack);
+  });
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
